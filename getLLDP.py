@@ -6,6 +6,11 @@
 import requests, json, pprint
 from apicLogin import aaaLogin
 
+# Disable insecure certificate warning
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
 apicUrl = 'sandboxapicdc.cisco.com'
 base_url = f"https://{apicUrl}"
 
