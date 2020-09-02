@@ -24,7 +24,7 @@ def getlldp(cookies):
 if __name__ == "__main__":
     cookies = aaaLogin()
     
-    lldp = getlldp(cookies)
+    lldp_data = getlldp(cookies)
     
-    pprint.pprint(lldp)
+    pprint.pprint(lldp_data)
 

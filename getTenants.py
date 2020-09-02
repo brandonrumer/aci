@@ -5,6 +5,7 @@
 
 import requests, json, pprint
 from apicLogin import aaaLogin
+from prettytable import PrettyTable
 
 # Disable insecure certificate warning
 import urllib3
@@ -23,8 +24,26 @@ def gettenants(cookies):
 
 if __name__ == "__main__":
     cookies = aaaLogin()
+    tenants_data = gettenants(cookies)
     
-    tenants = gettenants(cookies)
-    
-    pprint.pprint(tenants)
+    #pprint.pprint(tenants)
+
+    # Cleanup the endpoint info
+    fields = ['name']
+    data = []
+
+    for tenant in tenants_data['imdata']:
+        for stuff in tenant['fvTenant'].items():
+            line_dict = {}
+            for field in fields:
+                line_dict[field] = stuff[1][field]
+            data.append(line_dict)
+
+    # pprint.pprint(data)
+
+    table = PrettyTable()
+    table.field_names = ['Tenant Name']
+    for row in data:
+        table.add_row([row['name']])
+    print(table)
 
