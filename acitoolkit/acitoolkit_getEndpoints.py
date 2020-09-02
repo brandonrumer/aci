@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # print(endpoints)
 
     for endpoint in endpoints:
-        print("MAC:%s" % endpoint.mac)
-        print("IP:%s" % endpoint.ip)
-        print("---------\n")
+        print(f"MAC:{endpoint.mac}")
+        print(f"IP:{endpoint.ip}")
+        print("---------------------")
 
