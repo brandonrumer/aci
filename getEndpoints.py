@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     # Get the endpoints
     endpoint_data = getendpoints(cookies)
-    #pprint.pprint(endpoint_data)
-
+    pprint.pprint(endpoint_data)
+    quit()
 
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
