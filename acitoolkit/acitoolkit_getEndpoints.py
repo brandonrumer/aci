@@ -1,6 +1,9 @@
 #!/usr/local/bin/python3
 
-""" Summary: Gathers all ACI LLDP info
+""" Summary: Gathers all connected endpoints
+
+Requirements: 
+    acitoolkit, prettytable
 """
 
 import acitoolkit.acitoolkit as aci
