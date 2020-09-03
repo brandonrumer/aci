@@ -40,8 +40,9 @@ def aaaLogin():
     #print(cookies)
     return cookies
 
-
-if __name__ == "__main__":
+def main():
     cookies = aaaLogin()
     print(f"apicLogin cookie: {cookies}")
 
+if __name__ == "__main__":
+    main()

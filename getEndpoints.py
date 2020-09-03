@@ -21,15 +21,7 @@ def getendpoints(cookies):
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 
-if __name__ == "__main__":
-    # Get the login token
-    cookies = aaaLogin()
-
-    # Get the endpoints
-    endpoint_data = getendpoints(cookies)
-    pprint.pprint(endpoint_data)
-    quit()
-
+def cleanupendpoints(endpoint_data):
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
     data = []
@@ -41,12 +33,28 @@ if __name__ == "__main__":
                 line_dict[field] = stuff[1][field]
             data.append(line_dict)
 
-    # pprint.pprint(data)
-
     table = PrettyTable()
     table.field_names = ['IP Address','MAC Address']
     for row in data:
         table.add_row([row['ip'],row['mac']])
+    return(table)
+
+
+def main():
+    # Get the login token
+    cookies = aaaLogin()
+
+    # Get the endpoints
+    endpoint_data = getendpoints(cookies)
+
+    # Cleanup the endpoint
+    table = cleanupendpoints(endpoint_data)
+
     print(table)
+
+
+if __name__ == "__main__":
+    main()
+
 
 
