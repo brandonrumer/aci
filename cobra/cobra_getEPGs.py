@@ -15,6 +15,9 @@ import cobra.mit.access
 import cobra.mit.session
 from tabulate import tabulate
 
+# For sorting the final result
+from operator import itemgetter 
+
 
 def connect_to_apic():
     apicUrl = 'https://sandboxapicdc.cisco.com'
@@ -54,12 +57,17 @@ def main():
 
         row = {
             "EPG": mo.name,
-            "Application Profile": application,
+            "AP": application,
             "Tenant": tenant
         }
         EPGList.append(row)
+    
+    
+    # Sort the list by the Tenant, then App, then EPG. Need to use itemgetter
+    #   because the list contains dicts
+    sortedEPGList = sorted(EPGList, key=itemgetter("Tenant", "AP", "EPG"))
 
-    print(tabulate(EPGList, tablefmt='grid', headers="keys"))
+    print(tabulate(sortedEPGList, tablefmt="grid", headers="keys"))
 
     # Cleanup
     modir.logout()
