@@ -1,9 +1,9 @@
 #!/usr/local/bin/python3
 
-""" Summary: Gathers all connected endpoints
+""" Summary: Logs into ACI APIC via cobraSDK
 
 Requirements: 
-    acicobra, acimodel, arya
+    acicobra, acimodel
 """
 
 from cobra.mit.access import MoDirectory
@@ -23,24 +23,10 @@ def apicLogin():
     return moDir
 
 
-def getuni(moDir):
-    uniMo = moDir.lookupByDn('uni')
-    # Use the connected moDir queries and configuration...
-    tenant1Mo = moDir.lookupByClass("fvTenant")
-    print(tenant1Mo)
-    return
-
-
 def main():
-    try: 
-        moDir=apicLogin()
-        getuni(moDir)
-    except KeyboardInterrupt:
-        print('Keyboard interrupt. Quitting...')
-        quit()
+    moDir=apicLogin()
     moDir.logout()
 
 
 if __name__ == "__main__":
     main()
-
