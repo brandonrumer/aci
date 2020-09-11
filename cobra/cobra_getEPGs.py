@@ -6,6 +6,11 @@ Requirements:
     acicobra, acimodel, tabulate
 """
 
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
+__email__ = "brumer@cisco.com"
+__status__ = "Production"
+
 
 # Disable insecure certificate warning
 import urllib3

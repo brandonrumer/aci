@@ -6,6 +6,12 @@ Requirements:
     acicobra, acimodel
 """
 
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
+__email__ = "brumer@cisco.com"
+__status__ = "Production"
+
+
 from cobra.mit.access import MoDirectory
 from cobra.mit.session import LoginSession
 
