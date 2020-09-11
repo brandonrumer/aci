@@ -41,7 +41,7 @@ topMo = md.lookupByDn(topParentDn)
 
 # build the request using cobra syntax
 infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf101')
-infraHPortS = cobra.model.infra.HPortS(infraAccPortP, name='1:01')
+infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range',name='1:01') # Arya didn't add 'range'
 infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, name='block2')
 infraRsAccBaseGrp = cobra.model.infra.RsAccBaseGrp(infraHPortS)
 
