@@ -1,6 +1,9 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python3
 
-""" Summary: Logs into ACI APIC via cobraSDK and creates the Interface Profile and multiple interface selectors 
+""" Summary:  Logs into ACI APIC via cobraSDK and creates the Interface 
+              Profile interface selectors for every interface on the switch.
+               Code was partially generated via arya. 
+
 
 Requirements: 
     acicobra, acimodel
@@ -12,7 +15,6 @@ __email__ = "brumer@cisco.com"
 __status__ = "Development"
 
 
-# list of packages that should be imported for this code to work
 import cobra.mit.access
 import cobra.mit.naming
 import cobra.mit.request
@@ -25,19 +27,19 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def main():
-  # log into an APIC and create a directory object
+  # APIC Login
   ls = cobra.mit.session.LoginSession('https://sandboxapicdc.cisco.com', 'admin', 'ciscopsdt')
   md = cobra.mit.access.MoDirectory(ls)
   md.login()
 
 
-  # the top level object on which operations will be made
+  # Top level object on which operations will be made
   topDn = cobra.mit.naming.Dn.fromString('uni/infra/accportprof-Leaf101')   #<-- Actual Switch to tie it to
   topParentDn = topDn.getParent()
   topMo = md.lookupByDn(topParentDn)
 
 
-  # build the request using cobra syntax
+  # Begin building the request using cobra syntax
   infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf108')   #<--Switch Profile Name
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
@@ -45,8 +47,9 @@ def main():
   infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort='1', toPort='1', name='block2')
   infraRsAccBaseGrp = cobra.model.infra.RsAccBaseGrp(infraHPortS)
 
+  # Create the rest of the interfaces, using a leading 0 for single digits
   for i in (range(2,48)):
-    i2 = ('%02d' % i) # adds a leading 0 to single digits, which is good for naming organization
+    i2 = ('%02d' % i)
     print(f'i:{i}, i2:{i2}')
     globals()[f'infraHPortS{i}'] = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:{i2}')
     globals()[f'infraPortBlk{i}'] = cobra.model.infra.PortBlk(globals()[f'infraHPortS{i}'], fromPort=f'{i}', toPort=f'{i}', name='block2')
@@ -60,7 +63,7 @@ def main():
   infraRsAccBaseGrp2 = cobra.model.infra.RsAccBaseGrp(infraHPortS2)
   '''
 
-  # commit the generated code to APIC
+  # Commit
   print(toXMLStr(topMo))
   c = cobra.mit.request.ConfigRequest()
   c.addMo(topMo)
