@@ -27,7 +27,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def apicLogin():
+def connect_to_apic():
   # APIC Login
   apicUrl = 'https://sandboxapicdc.cisco.com'
   login = 'admin'
@@ -76,7 +76,7 @@ def addIntProf(md):
 
 
 def main():
-  md = apicLogin()
+  md = connect_to_apic()
   addIntProf(md)
   
   md.logout()
