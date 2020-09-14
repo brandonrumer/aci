@@ -26,21 +26,26 @@ from cobra.internal.codec.xmlcodec import toXMLStr
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def main():
+
+def apicLogin():
   # APIC Login
-  ls = cobra.mit.session.LoginSession('https://sandboxapicdc.cisco.com', 'admin', 'ciscopsdt')
+  apicUrl = 'https://sandboxapicdc.cisco.com'
+  login = 'admin'
+  passwd = 'ciscopsdt'
+  ls = cobra.mit.session.LoginSession(apicUrl, login, passwd)
   md = cobra.mit.access.MoDirectory(ls)
   md.login()
+  return md
 
 
+def addIntProf(md):
   # Top level object on which operations will be made
   topDn = cobra.mit.naming.Dn.fromString('uni/infra/accportprof-Leaf101')   #<-- Actual Switch to tie it to
   topParentDn = topDn.getParent()
   topMo = md.lookupByDn(topParentDn)
 
-
   # Begin building the request using cobra syntax
-  infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf108')   #<--Switch Profile Name
+  infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf121')   #<--Switch Profile Name
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
   infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name='1:01')
@@ -69,6 +74,12 @@ def main():
   c.addMo(topMo)
   md.commit(c)
 
+
+def main():
+  md = apicLogin()
+  addIntProf(md)
+  
+  md.logout()
 
 if __name__ == "__main__":
     main()
