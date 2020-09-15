@@ -1,9 +1,13 @@
 # ACI
-Useful python scripts when interacting with ACI devices.
+Useful python scripts when interacting with an ACI fabric.
 
 ## Prerequisites
+This varries depending on the script. Generally, the below 3rd party modules are used:
 prettyprint (pprintpp)
 prettytable (prettytable)
+tabulate
+cobraSDK
 
 ### References
 https://aci-prog-lab.ciscolive.com/lab/pod21
+https://developer.cisco.com/docs/aci/#!sandbox/aci-sandboxes
