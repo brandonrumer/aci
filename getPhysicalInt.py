@@ -2,8 +2,10 @@
 
 """ Summary: Gets physical interface status of ACI Nexus switches
 
+Future: Sort the output
+
 Requirements: 
-    acicobra, acimodel
+    prettytable
 
 """
 
@@ -12,7 +14,7 @@ __version__ = "0.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Development"
 
-import requests, json, pprint
+import requests, json, re
 from prettytable import PrettyTable
 
 
@@ -47,7 +49,7 @@ def aaaLogin():
     # Extract the token
     token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
 
-    # Generate a cookie dict (why?)
+    # Generate a cookie dict
     cookies = {}
     cookies['APIC-Cookie'] = token
     return cookies
@@ -73,9 +75,13 @@ def cleanupendpoints(endpoint_data):
             data.append(line_dict)
 
     table = PrettyTable()
-    table.field_names = ['dn','Port']
+    table.field_names = ['dn','Port','Node']
     for row in data:
-        table.add_row([row['dn'],row['id']])
+        try:
+            node = re.search(r'node-\d\d\d', str(row["dn"])).group(0)
+        except AttributeError:
+            node = ''
+        table.add_row([row['dn'],row['id'],node])
     return(table)
 
 
@@ -85,32 +91,7 @@ def main():
     
     # Cleanup the endpoint
     table = cleanupendpoints(endpoint_data)
-
     print(table)
-
-
-
-    '''
-    # Dump the text of the response to a json object
-    #endpointdata_json = json.loads(endpoint_data)
-    print(f'endpointdata_json: {endpoint_data[0]}')
-    quit()
-    # Extract the interface
-    interface = endpointdata_json['imdata']['l1PhysIf']['attributes']['id']
-    #interface = endpointdata_json['imdata'][0]
-    pprint(interface)
-    '''
-
-
-    
-
-    '''
-    for i in endpoint_data['imdata']:
-        #for j in i:['l1PhysIf']:
-        #    print(j)
-        print(i['l1PhysIf'['attributes'['id']]])
-    '''
-
 
 
 if __name__ == "__main__":
