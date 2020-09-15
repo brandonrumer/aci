@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-""" Summary: Gets physical interface status of ACI Nexus switches
+""" Summary: Gets physical interface list of Nexus switches in the ACI fabric
 
 Future: Sort the output
 
@@ -9,10 +9,10 @@ Requirements:
 
 """
 
-__author__ = "Mike Timm, Toru Okatsu, Brandon Rumer"
-__version__ = "0.0.1"
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
 __email__ = "brumer@cisco.com"
-__status__ = "Development"
+__status__ = "Production"
 
 import requests, json, re
 from prettytable import PrettyTable
