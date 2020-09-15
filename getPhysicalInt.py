@@ -17,8 +17,7 @@ import requests, json, re, operator
 from prettytable import PrettyTable 
 
 # Disable insecure certificate warning
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+requests.packages.urllib3.disable_warnings()
 
 
 apicUrl = 'sandboxapicdc.cisco.com'
