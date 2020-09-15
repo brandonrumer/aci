@@ -45,7 +45,7 @@ def addIntProf(md):
   topMo = md.lookupByDn(topParentDn)
 
   # Begin building the request using cobra syntax
-  infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf121')   #<--Switch Profile Name
+  infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf101')   #<--Switch Profile Name
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
   infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name='1:01')

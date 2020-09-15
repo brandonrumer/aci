@@ -2,8 +2,6 @@
 
 """ Summary: Gets physical interface list of Nexus switches in the ACI fabric
 
-Future: Sort the output
-
 Requirements: 
     prettytable
 
@@ -14,9 +12,9 @@ __version__ = "1.0.0"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
-import requests, json, re
-from prettytable import PrettyTable
 
+import requests, json, re, operator
+from prettytable import PrettyTable 
 
 # Disable insecure certificate warning
 import urllib3
@@ -89,10 +87,9 @@ def main():
     cookies = aaaLogin()
     endpoint_data = getInt(cookies)
     
-    # Cleanup the endpoint
+    # Cleanup the data
     table = cleanupendpoints(endpoint_data)
-    print(table)
-
+    print(table.get_string(sort_key=operator.itemgetter(1, 0), sortby="Node"))
 
 if __name__ == "__main__":
     main()
