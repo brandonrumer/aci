@@ -1,17 +1,23 @@
 #!/usr/local/bin/python3
 
-""" Summary: Logs into APIC and generates login cookie """
+""" Summary: Logs into APIC and generates login cookie.
+
+    getpass can be implemented in cases where this is the sole 
+    script that is ran in the environment.
+"""
+
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
+__email__ = "brumer@cisco.com"
+__status__ = "Production"
+
 
 import requests, json
+#import getpass 
 
 # Disable insecure certificate warning
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-
-apicUrl = 'sandboxapicdc.cisco.com'
-login = 'admin'
-passwd = 'ciscopsdt'
 
 
 def aaaLogin():
@@ -41,6 +47,14 @@ def aaaLogin():
     return cookies
 
 def main():
+    
+    apicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
     cookies = aaaLogin()
     print(f"apicLogin cookie: {cookies}")
 
