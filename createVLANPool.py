@@ -13,7 +13,7 @@
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -21,6 +21,7 @@ __status__ = "Production"
 import requests, json, time
 import tkinter as tk
 from tkinter import filedialog
+import getpass
 
 # Reuse apicLogin code
 from apicLogin import aaaLogin
@@ -50,6 +51,12 @@ def createVLANPool(base_url, cookies, vlanpoolname, assignmethod, json_object):
 
 def main():
     apicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+        
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
     base_url = f"https://{apicUrl}"
 
      ###### Name of VLAN Pool ######
@@ -103,7 +110,7 @@ def main():
     #print(json_object)
 
     # Get the authorization cookie from the APIC
-    cookies = aaaLogin()
+    cookies = aaaLogin(apicUrl, login, passwd)
 
     # Create the pool
     responsedata = createVLANPool(base_url, cookies, vlanpoolname, assignmethod, json_object)
