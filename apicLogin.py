@@ -7,7 +7,7 @@
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -20,7 +20,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def aaaLogin():
+def aaaLogin(apicUrl, login, passwd):
     credentials = {'aaaUser':
                     {'attributes':
                         {'name': login, 'pwd': passwd }
@@ -40,7 +40,7 @@ def aaaLogin():
     # Extract the token
     token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
     
-    # Generate a cookie dict (why?)
+    # Generate a cookie dict to be used in the POST header
     cookies = {}
     cookies['APIC-Cookie'] = token
     #print(cookies)
@@ -55,7 +55,7 @@ def main():
     #login = input('Enter username to connect with: ')
     #passwd = getpass.getpass("Enter password: ")
 
-    cookies = aaaLogin()
+    cookies = aaaLogin(apicUrl, login, passwd)
     print(f"apicLogin cookie: {cookies}")
 
 if __name__ == "__main__":
