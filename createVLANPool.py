@@ -17,7 +17,7 @@ __version__ = "1.0.0"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
-#import getpass
+
 import requests, json, time
 import tkinter as tk
 from tkinter import filedialog
