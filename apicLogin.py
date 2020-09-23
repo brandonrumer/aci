@@ -7,7 +7,7 @@
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -38,8 +38,12 @@ def aaaLogin(apicUrl, login, passwd):
     post_response_json = json.loads(post_response.text)
     
     # Extract the token
-    token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
-    
+    try:
+        token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
+    except KeyError:
+        print('Logon error. Wrong credentials? Terminating.\n')
+        quit()
+
     # Generate a cookie dict to be used in the POST header
     cookies = {}
     cookies['APIC-Cookie'] = token
