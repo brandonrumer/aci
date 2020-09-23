@@ -3,17 +3,15 @@
 """ Summary: Gathers all ACI LLDP info
 """
 
-import requests, json, pprint
+import requests, json, argparse, pprint
 from prettytable import PrettyTable
 from apicLogin import aaaLogin
+#import getpass
 
 # Disable insecure certificate warning
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
-apicUrl = 'sandboxapicdc.cisco.com'
-base_url = f"https://{apicUrl}"
 
 def getendpoints(cookies):
     request_url = '/api/node/class/fvCEp.json'
@@ -21,14 +19,35 @@ def getendpoints(cookies):
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 
-if __name__ == "__main__":
+
+def main():
+    # Statically specify the APIC URL, if not executing script via CLI
+    DefaultApicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+        
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
+    # Use arg parse to capture any CLI arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--apic', '-a', action='store', 
+        help="The IP or URL of the APIC controller. This should not include \
+            http(s) or a trailing backslash.")
+
+    args = parser.parse_args()
+    apicUrl = args.apic
+
+    if apicUrl == None:
+        apicUrl = DefaultApicUrl
+    base_url = f"https://{apicUrl}"
+
     # Get the login token
-    cookies = aaaLogin()
+    cookies = aaaLogin(apicUrl, login, passwd)
 
     # Get the endpoints
     endpoint_data = getendpoints(cookies)
     #pprint.pprint(endpoint_data)
-
 
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
@@ -50,3 +69,5 @@ if __name__ == "__main__":
     print(table)
 
 
+if __name__ == "__main__":
+    main()
