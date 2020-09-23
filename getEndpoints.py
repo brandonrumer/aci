@@ -13,7 +13,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def getendpoints(cookies):
+def getendpoints(base_url, cookies):
     request_url = '/api/node/class/fvCEp.json'
     response_data = requests.get(base_url + request_url, cookies=cookies, verify=False)
     endpoint_data = json.loads(response_data.text)
@@ -46,7 +46,7 @@ def main():
     cookies = aaaLogin(apicUrl, login, passwd)
 
     # Get the endpoints
-    endpoint_data = getendpoints(cookies)
+    endpoint_data = getendpoints(base_url, cookies)
     #pprint.pprint(endpoint_data)
 
     # Cleanup the endpoint info
@@ -64,30 +64,7 @@ def main():
     table.field_names = ['IP Address','MAC Address']
     for row in data:
         table.add_row([row['ip'],row['mac']])
-    return(table)
-
-
-def main():
-
-    apicUrl = 'sandboxapicdc.cisco.com'
-    login = 'admin'
-    passwd = 'ciscopsdt'
-        
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
-
-
-    # Get the login token
-    cookies = aaaLogin(apicUrl, login, passwd)
-
-    # Get the endpoints
-    endpoint_data = getendpoints(cookies)
-
-    # Cleanup the endpoint
-    table = cleanupendpoints(endpoint_data)
-
     print(table)
-
 
 if __name__ == "__main__":
     main()
