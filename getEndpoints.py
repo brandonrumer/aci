@@ -41,8 +41,17 @@ def cleanupendpoints(endpoint_data):
 
 
 def main():
+
+    apicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+        
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
+
     # Get the login token
-    cookies = aaaLogin()
+    cookies = aaaLogin(apicUrl, login, passwd)
 
     # Get the endpoints
     endpoint_data = getendpoints(cookies)
