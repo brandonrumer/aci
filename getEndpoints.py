@@ -19,7 +19,6 @@ def getendpoints(cookies):
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 
-<<<<<<< HEAD
 
 def main():
     # Statically specify the APIC URL, if not executing script via CLI
@@ -50,9 +49,6 @@ def main():
     endpoint_data = getendpoints(cookies)
     #pprint.pprint(endpoint_data)
 
-=======
-def cleanupendpoints(endpoint_data):
->>>>>>> master
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
     data = []
@@ -94,11 +90,4 @@ def main():
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     main()
-=======
-    main()
-
-
-
->>>>>>> master
