@@ -19,6 +19,7 @@ def getendpoints(cookies):
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 
+<<<<<<< HEAD
 
 def main():
     # Statically specify the APIC URL, if not executing script via CLI
@@ -49,6 +50,9 @@ def main():
     endpoint_data = getendpoints(cookies)
     #pprint.pprint(endpoint_data)
 
+=======
+def cleanupendpoints(endpoint_data):
+>>>>>>> master
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
     data = []
@@ -60,14 +64,41 @@ def main():
                 line_dict[field] = stuff[1][field]
             data.append(line_dict)
 
-    # pprint.pprint(data)
-
     table = PrettyTable()
     table.field_names = ['IP Address','MAC Address']
     for row in data:
         table.add_row([row['ip'],row['mac']])
+    return(table)
+
+
+def main():
+
+    apicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+        
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
+
+    # Get the login token
+    cookies = aaaLogin(apicUrl, login, passwd)
+
+    # Get the endpoints
+    endpoint_data = getendpoints(cookies)
+
+    # Cleanup the endpoint
+    table = cleanupendpoints(endpoint_data)
+
     print(table)
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+    main()
+
+
+
+>>>>>>> master
