@@ -5,11 +5,11 @@
 
 import requests, json, pprint
 from apicLogin import aaaLogin
+# import getpass
 
 # Disable insecure certificate warning
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 apicUrl = 'sandboxapicdc.cisco.com'
 base_url = f"https://{apicUrl}"
@@ -21,10 +21,21 @@ def getlldp(cookies):
     return lldp_data
 
 
-if __name__ == "__main__":
-    cookies = aaaLogin()
+def main():
+    apicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+        
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
+    base_url = f"https://{apicUrl}"
+
+    cookies = aaaLogin(apicUrl, login, passwd)
     
     lldp_data = getlldp(cookies)
     
     pprint.pprint(lldp_data)
 
+if __name__ == "__main__":
+    main()
