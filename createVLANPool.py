@@ -21,7 +21,7 @@ __status__ = "Production"
 import requests, json, time
 import tkinter as tk
 from tkinter import filedialog
-import getpass
+# import getpass
 
 # Reuse apicLogin code
 from apicLogin import aaaLogin
