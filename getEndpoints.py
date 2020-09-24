@@ -28,7 +28,7 @@ def main():
         
     #login = input('Enter username to connect with: ')
     #passwd = getpass.getpass("Enter password: ")
-
+    
     # Use arg parse to capture any CLI arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--apic', '-a', action='store', 

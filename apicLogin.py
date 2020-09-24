@@ -12,6 +12,7 @@ __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
 
+
 import requests, json
 #import getpass 
 
@@ -42,6 +43,9 @@ def aaaLogin(apicUrl, login, passwd):
         token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
     except KeyError:
         print('Logon error. Wrong credentials? Terminating.\n')
+        quit()
+    except KeyboardInterrupt:
+        print("Keyboard interrupt detected. Terminating.\n")
         quit()
 
     # Generate a cookie dict to be used in the POST header
