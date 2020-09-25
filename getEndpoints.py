@@ -3,6 +3,11 @@
 """ Summary: Gathers all ACI LLDP info
 """
 
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
+__email__ = "brumer@cisco.com"
+__status__ = "Production"
+
 import requests, json, argparse, pprint
 from prettytable import PrettyTable
 from apicLogin import aaaLogin
@@ -16,6 +21,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def getendpoints(base_url, cookies):
     request_url = '/api/node/class/fvCEp.json'
     response_data = requests.get(base_url + request_url, cookies=cookies, verify=False)
+    # If the post fails, raise the HTTPError, otherwise continue
+    response_data.raise_for_status() 
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 

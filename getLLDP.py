@@ -1,7 +1,13 @@
 #!/usr/local/bin/python3
 
-""" Summary: Gathers all ACI LLDP info
+""" Summary: Gets LLDP info for all connected devices.
+
 """
+
+__author__ = "Brandon Rumer"
+__version__ = "1.0.0"
+__email__ = "brumer@cisco.com"
+__status__ = "Production"
 
 import requests, json, argparse, pprint
 from apicLogin import aaaLogin
@@ -15,6 +21,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def getlldp(cookies, base_url):
     request_url = '/api/node/class/lldpAdjEp.json'
     response_data = requests.get(base_url + request_url, cookies=cookies, verify=False)
+     # If the post fails, raise the HTTPError, otherwise continue
+    response_data.raise_for_status() 
     lldp_data = json.loads(response_data.text)
     return lldp_data
 
