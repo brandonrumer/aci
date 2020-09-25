@@ -12,8 +12,7 @@ __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
 
-
-import requests, json
+import requests, json, sys
 #import getpass 
 
 # Disable insecure certificate warning
@@ -43,10 +42,11 @@ def aaaLogin(apicUrl, login, passwd):
         token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
     except KeyError:
         print('Logon error. Wrong credentials? Terminating.\n')
-        quit()
+        sys.exit(1)
     except KeyboardInterrupt:
         print("Keyboard interrupt detected. Terminating.\n")
-        quit()
+        sys.exit(1)
+
 
     # Generate a cookie dict to be used in the POST header
     cookies = {}
@@ -56,7 +56,7 @@ def aaaLogin(apicUrl, login, passwd):
 
 def main():
     
-    apicUrl = 'sandboxapicdc.cisco.com'
+    apicUrl = 'sandboxapicdc6.cisco.com'
     login = 'admin'
     passwd = 'ciscopsdt'
 
