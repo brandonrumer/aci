@@ -1,14 +1,17 @@
 #!/usr/local/bin/python3
 
 """ Summary: Gathers all ACI LLDP info
+
+    Requirements: 
+        apicLogin.py, PrettyTable
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
-import requests, json, argparse, pprint
+import requests, json, argparse
 from prettytable import PrettyTable
 from apicLogin import aaaLogin
 #import getpass
@@ -54,7 +57,6 @@ def main():
 
     # Get the endpoints
     endpoint_data = getendpoints(base_url, cookies)
-    #pprint.pprint(endpoint_data)
 
     # Cleanup the endpoint info
     fields = ['mac', 'ip', 'dn']
