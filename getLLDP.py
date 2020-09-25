@@ -2,6 +2,8 @@
 
 """ Summary: Gets LLDP info for all connected devices.
 
+    Requirements: 
+        apicLogin.py, PrettyTable
 """
 
 __author__ = "Brandon Rumer"
@@ -9,7 +11,8 @@ __version__ = "1.0.0"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
-import requests, json, argparse, pprint
+import requests, json, argparse
+from prettytable import PrettyTable
 from apicLogin import aaaLogin
 # import getpass
 
@@ -54,7 +57,24 @@ def main():
     
     lldp_data = getlldp(cookies, base_url)
     
-    pprint.pprint(lldp_data)
+    
+    # Cleanup the info
+    fields = ['sysName','mgmtIp', 'portIdV','portDesc','dn']
+    data = []
+
+    for entry in lldp_data['imdata']:
+        for stuff in entry['lldpAdjEp'].items():
+            line_dict = {}
+            for field in fields:
+                line_dict[field] = stuff[1][field]
+            data.append(line_dict)
+
+    table = PrettyTable()
+    table.field_names = ['Name','Management IP Address','MAC Address','Port','dn']
+    for row in data:
+        table.add_row([row['sysName'],row['mgmtIp'],row['portIdV'],row['portDesc'],row['dn']])
+    print(table)
+
 
 if __name__ == "__main__":
     main()
