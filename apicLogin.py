@@ -7,7 +7,7 @@
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -31,35 +31,33 @@ def aaaLogin(apicUrl, login, passwd):
     login_url = base_url + 'aaaLogin.json'
     json_credentials = json.dumps(credentials)
 
-    # Post & get the response
-    post_response = requests.post(login_url, data=json_credentials, verify=False)
-
-    # Dump the text of the response to a json object
-    post_response_json = json.loads(post_response.text)
-    
-    # Extract the token
     try:
-        token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
-    except KeyError:
-        print('Logon error. Wrong credentials? Terminating.\n')
-        sys.exit(1)
-    except KeyboardInterrupt:
-        print("Keyboard interrupt detected. Terminating.\n")
+        # Post & get the response
+        post_response = requests.post(login_url, data=json_credentials, verify=False)
+        # Dump the text of the response to a json object
+        post_response_json = json.loads(post_response.text)
+        if post_response.ok:
+            # Extract the token
+            token = post_response_json['imdata'][0]['aaaLogin']['attributes']['token']
+            # Generate a cookie dict to be used in the POST header
+            cookies = {}
+            cookies['APIC-Cookie'] = token
+            #print(cookies)
+            return cookies
+        else:
+            print('Connection Error. Wrong credentials? Terminating.\n')
+            sys.exit(1)
+    except requests.ConnectionError:
+        print('Connection Error. Check APIC URL. Terminating.\n')
         sys.exit(1)
 
-
-    # Generate a cookie dict to be used in the POST header
-    cookies = {}
-    cookies['APIC-Cookie'] = token
-    #print(cookies)
-    return cookies
 
 def main():
-    
-    apicUrl = 'sandboxapicdc6.cisco.com'
+    apicUrl = 'sandboxapicdc.cisco.com'
+
+    ### Coment/uncomment the below static entries if using getpass ###
     login = 'admin'
     passwd = 'ciscopsdt'
-
     #login = input('Enter username to connect with: ')
     #passwd = getpass.getpass("Enter password: ")
 
