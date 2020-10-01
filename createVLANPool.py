@@ -13,7 +13,7 @@
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -113,7 +113,7 @@ def main():
     cookies = aaaLogin(apicUrl, login, passwd)
 
     # Create the pool
-    responsedata = createVLANPool(base_url, cookies, vlanpoolname, assignmethod, json_object)
+    createVLANPool(base_url, cookies, vlanpoolname, assignmethod, json_object)
 
 
 if __name__ == "__main__":
