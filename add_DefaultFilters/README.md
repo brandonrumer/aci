@@ -1,5 +1,5 @@
 # add_DefaultFilters.py
-Logs into ACI APIC via cobraSDK and creates the severalf ilters in the common tenant. 
+Logs into ACI APIC via cobraSDK and creates the several filters in the common tenant. 
 
 ## Summary
 The filters that are created are referenced in a filters.yml file. For the purpose of this script, the filters are the commonly used 'literal values and port numbers' that are commonly used inside IOS/XE ACLs.
