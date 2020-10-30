@@ -18,6 +18,9 @@ __version__ = "1.0.0"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
+# Import built-in modules
+import os 
+
 # Import third-party modules
 import yaml
 # import getpass
@@ -93,7 +96,13 @@ def addDefaultFilters(md, item):
 
 
 def main():
-  ymlfile='filters.yml'
+ 
+  # Use the filters.yml thats in the same folder as add-DefaultFilters.py
+  # This would need to be modified if running on Linux. There are a variety
+  # of methods that could be implemented here. 
+  dir_path = os.path.dirname(os.path.realpath(__file__))
+  ymlfile=dir_path + r"\filters.yml"
+
   data = importfilteryml(ymlfile)
   md = connect_to_apic()
 

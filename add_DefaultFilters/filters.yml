@@ -61,7 +61,7 @@ filters :
       sToPort : 
       stateful : 'yes'
   - name : 'kerberos'
-	vzentryName : 
+    vzentryName : 
       name : '88-udp'
       annotation : 
       dFromPort : '88'
@@ -182,7 +182,7 @@ filters :
       stateful : 'yes'
   - name : 'tftp'
     vzentryName : 
-      name : 69-udp'
+      name : '69-udp'
       annotation : 
       dFromPort : '69'
       dToPort : '69'
@@ -194,7 +194,7 @@ filters :
       stateful : 
   - name : 'www'
     vzentryName : 
-      name : 80-tcp
+      name : '80-tcp'
       annotation : 
       dFromPort : '80'
       dToPort : '80'
