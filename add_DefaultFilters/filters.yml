@@ -1,0 +1,206 @@
+---
+filters : 
+  - name : 'cmd'
+    vzentryName : 
+      name : '514-tcp'
+      annotation : 
+      dFromPort : '514'
+      dToPort : '514'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name: 'domain'
+    vzentryName : 
+      name : '53-tcp'
+      dFromPort : '53'
+      annotation : 
+      dToPort : '53'
+      descr : 
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name: 'domain'
+    vzentryName : 
+      name : '53-udp'
+      annotation : 
+      dFromPort : '53'
+      dToPort : '53'
+      descr : 
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name: 'isakmp'
+    vzentryName :
+      name : '500-udp'
+      annotation : 
+      dFromPort : '500'
+      dToPort : '500'
+      descr : 
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'kerberos'
+    vzentryName : 
+      name : '88-tcp'
+      annotation : 
+      dFromPort : '88'
+      dToPort : '88'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'kerberos'
+	vzentryName : 
+      name : '88-udp'
+      annotation : 
+      dFromPort : '88'
+      dToPort : '88'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'ldap'
+    vzentryName : 
+      name : '389-tcp'
+      annotation : 
+      dFromPort : '389'
+      dToPort : '389'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'ldap'
+    vzentryName : 
+      name : '389-udp'
+      annotation : 
+      dFromPort : '389'
+      dToPort : '389'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'ldaps'
+    vzentryName : 
+      name : '636-tcp'
+      annotation : 
+      dFromPort : '636'
+      dToPort : '636'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'ldaps'
+    vzentryName : 
+      name : '636-udp'
+      annotation : 
+      dFromPort : '636'
+      dToPort : '636'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'ntp'
+    vzentryName : 
+      name : '123-udp'
+      annotation : 
+      dFromPort : '123'
+      dToPort : '123'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'smtp'
+    vzentryName : 
+      name : '25-tcp'
+      annotation : 
+      dFromPort : '25'
+      dToPort : '25'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'snmp'
+    vzentryName : 
+      name : 'snmp-tcp'
+      annotation : 
+      dFromPort : '161'
+      dToPort : '162'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'ssh'
+    vzentryName : 
+      name : '22-tcp'
+      annotation : 
+      dFromPort : '22'
+      dToPort : '22'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'tacacs'
+    vzentryName : 
+      name : '49-tcp'
+      annotation : 
+      dFromPort : '49'
+      dToPort : '49'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
+  - name : 'tftp'
+    vzentryName : 
+      name : 69-udp'
+      annotation : 
+      dFromPort : '69'
+      dToPort : '69'
+      descr :   
+      etherT : 'ip'
+      prot : 'udp'
+      sFromPort : 
+      sToPort : 
+      stateful : 
+  - name : 'www'
+    vzentryName : 
+      name : 80-tcp
+      annotation : 
+      dFromPort : '80'
+      dToPort : '80'
+      descr :   
+      etherT : 'ip'
+      prot : 'tcp'
+      sFromPort : 
+      sToPort : 
+      stateful : 'yes'
