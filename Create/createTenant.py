@@ -13,9 +13,9 @@ __status__ = "Production"
 
 
 import requests, json, pprint, time
-from apicLogin import aaaLogin
-from getTenants import gettenants, cleanupTenants
-from prettytable import PrettyTable
+#from apicLogin import aaaLogin
+#from getTenants import gettenants, cleanupTenants
+#from prettytable import PrettyTable
 
 # import getpass
 
