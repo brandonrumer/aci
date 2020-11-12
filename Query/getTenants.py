@@ -4,7 +4,7 @@
 """
 
 import requests, json, pprint
-from apicLogin import aaaLogin
+
 from prettytable import PrettyTable
 
 # Disable insecure certificate warning
@@ -39,10 +39,19 @@ def cleanupTenants(tenants_data):
 
 
 def main():
+    # The below import module(s) were placed in the main function for backward compatibility
+    from apicLogin import aaaLogin
+
     apicUrl = 'sandboxapicdc.cisco.com'
     base_url = f"https://{apicUrl}"
 
-    cookies = aaaLogin()
+    ### Coment/uncomment the below static entries if using getpass ###
+    login = 'admin'
+    passwd = 'ciscopsdt'
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+
+    cookies = aaaLogin(apicUrl, login, passwd)
     tenants_data = gettenants(cookies, base_url)
     table = cleanupTenants(tenants_data)
 

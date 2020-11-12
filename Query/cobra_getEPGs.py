@@ -7,7 +7,7 @@ Requirements:
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -24,27 +24,14 @@ from tabulate import tabulate
 from operator import itemgetter 
 
 
-def connect_to_apic():
-    apicUrl = 'https://sandboxapicdc.cisco.com'
-    login = 'admin'
-    passwd = 'ciscopsdt'
-    modir = cobra.mit.access.MoDirectory(cobra.mit.session.LoginSession(apicUrl, login, passwd))
-    modir.login()
-    return modir
-
-
 def getEPG(modir):
     class_query = cobra.mit.access.ClassQuery('fvAEPg')
     fvAEPg_objlist = modir.query(class_query)
     return fvAEPg_objlist
 
 
-def main():
-    modir = connect_to_apic()
-    fvAEPg_objlist = getEPG(modir)
-
+def cleanupEPG(fvAEPg_objlist):    
     EPGList = []
-
     for mo in fvAEPg_objlist:
         # Find the mo's objects, via https://{apic}/visore.html
         dn = str(mo.dn)
@@ -67,15 +54,38 @@ def main():
         }
         EPGList.append(row)
     
-    
     # Sort the list by the Tenant, then App, then EPG. Need to use itemgetter
     #   because the list contains dicts
     sortedEPGList = sorted(EPGList, key=itemgetter("Tenant", "AP", "EPG"))
+    
+    return sortedEPGList
 
+
+def main():
+    # The below import module(s) were placed in the main function for backward compatibility
+    from cobra_apicLogin import apicLogin 
+
+    # Statically specify the APIC URL, if not executing script via CLI
+    DefaultApicUrl = 'sandboxapicdc.cisco.com'
+    login = 'admin'
+    passwd = 'ciscopsdt'
+
+    #login = input('Enter username to connect with: ')
+    #passwd = getpass.getpass("Enter password: ")
+    
+
+    # Login to the APIC using CobraSDK
+    moDir=apicLogin(DefaultApicUrl, login, passwd)
+
+    # Get the EPGs
+    fvAEPg_objlist = getEPG(moDir)
+
+    # Cleanup the EPGs to alphabetical 
+    sortedEPGList = cleanupEPG(fvAEPg_objlist)
     print(tabulate(sortedEPGList, tablefmt="grid", headers="keys"))
 
     # Cleanup
-    modir.logout()
+    moDir.logout()
 
 
 if __name__ == "__main__":

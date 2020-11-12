@@ -13,7 +13,6 @@ __status__ = "Production"
 
 import requests, json, argparse
 from prettytable import PrettyTable
-from apicLogin import aaaLogin
 #import getpass
 
 # Disable insecure certificate warning
@@ -29,8 +28,28 @@ def getendpoints(base_url, cookies):
     endpoint_data = json.loads(response_data.text)
     return endpoint_data
 
+def cleanendpoints(endpoint_data):
+    fields = ['mac', 'ip', 'dn']
+    data = []
+
+    for endpoint in endpoint_data['imdata']:
+        for stuff in endpoint['fvCEp'].items():
+            line_dict = {}
+            for field in fields:
+                line_dict[field] = stuff[1][field]
+            data.append(line_dict)
+
+    table = PrettyTable()
+    table.field_names = ['IP Address','MAC Address']
+    for row in data:
+        table.add_row([row['ip'],row['mac']])
+    return table
+
 
 def main():
+    # The below import module(s) were placed in the main function for backward compatibility
+    from apicLogin import aaaLogin
+    
     # Statically specify the APIC URL, if not executing script via CLI
     DefaultApicUrl = 'sandboxapicdc.cisco.com'
     login = 'admin'
@@ -59,21 +78,9 @@ def main():
     endpoint_data = getendpoints(base_url, cookies)
 
     # Cleanup the endpoint info
-    fields = ['mac', 'ip', 'dn']
-    data = []
+    clean_endpoint = cleanendpoints(endpoint_data)
+    print(clean_endpoint)
 
-    for endpoint in endpoint_data['imdata']:
-        for stuff in endpoint['fvCEp'].items():
-            line_dict = {}
-            for field in fields:
-                line_dict[field] = stuff[1][field]
-            data.append(line_dict)
-
-    table = PrettyTable()
-    table.field_names = ['IP Address','MAC Address']
-    for row in data:
-        table.add_row([row['ip'],row['mac']])
-    print(table)
 
 if __name__ == "__main__":
     main()
