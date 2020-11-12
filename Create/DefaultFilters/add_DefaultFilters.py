@@ -14,7 +14,7 @@ Requirements:
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -22,6 +22,7 @@ __status__ = "Production"
 import os 
 
 # Import third-party modules
+import argparse
 import yaml
 # import getpass
 import cobra.mit.access
@@ -37,14 +38,10 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def connect_to_apic():
-  # APIC Login
-  apicUrl = 'https://sandboxapicdc.cisco.com'
-  login = 'admin'
-  passwd = 'ciscopsdt'
-  #login = input('Enter username to connect with: ')
-  #passwd = getpass.getpass("Enter password: ")
-  ls = cobra.mit.session.LoginSession(apicUrl, login, passwd)
+def apicLogin(DefaultApicUrl, login, passwd):
+  # APIC login using CobraSDK
+  DefaultApicUrl = 'https://' + DefaultApicUrl  
+  ls = cobra.mit.session.LoginSession(DefaultApicUrl, login, passwd)
   md = cobra.mit.access.MoDirectory(ls)
   md.login()
   return md
@@ -94,18 +91,7 @@ def addDefaultFilters(md, item):
   c.addMo(topMo)
   md.commit(c)
 
-
-def main():
- 
-  # Use the filters.yml thats in the same folder as add-DefaultFilters.py
-  # This would need to be modified if running on Linux. There are a variety
-  # of methods that could be implemented here. 
-  dir_path = os.path.dirname(os.path.realpath(__file__))
-  ymlfile=dir_path + r"\filters.yml"
-
-  data = importfilteryml(ymlfile)
-  md = connect_to_apic()
-
+def createLoop(md, data):
   for item in data.get('filters'):
     '''
     print('filter name: ' + item['name'])
@@ -114,6 +100,39 @@ def main():
     '''
     addDefaultFilters(md, item)
   
+
+def main():
+  # Statically specify the APIC URL, if not executing script via CLI
+  DefaultApicUrl = 'sandboxapicdc.cisco.com'
+  login = 'admin'
+  passwd = 'ciscopsdt'
+
+  #login = input('Enter username to connect with: ')
+  #passwd = getpass.getpass("Enter password: ")
+
+  # Login to the APIC using CobraSDK
+  md=apicLogin(DefaultApicUrl, login, passwd)
+
+
+  # Use arg parse to capture any the CLI arguments
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--file', '-f', action='store', 
+    help="The yml file to be used as a source.")
+  args = parser.parse_args()
+  ymlfile = args.file
+
+  # If a CLI argument for the file was not used then use a file (filters.yml) in the running dir
+  if ymlfile == None:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    ymlfile=dir_path + r"\filters.yml"
+
+  # Parse the yaml file
+  data = importfilteryml(ymlfile)
+
+  # Create the filters
+  createLoop(md, data)
+
+  # Logout of the APIC
   md.logout()
 
 
