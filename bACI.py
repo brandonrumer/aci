@@ -58,11 +58,12 @@ def process_args():
         metavar='create', 
         required=False, 
         help='What to create. Values can be:\n'
-        'filters - Use --file to specificy yaml file input\n'
-        'intprof - Use "--option Leaf-201,1,48" , where Leaf-201 is profile name, 1 is\n'
-        '          starting interface, and 48 ending interface\n'
-        'tenant - Use "--option Tenant1" , where Tenant1 is tenant to be created\n'
-        'vlanpool - '
+        'filters -  Use --file to specificy yaml file input\n'
+        'intprof -  Use "--option Leaf-201,1,48" , where Leaf-201 is profile name, 1 is\n'
+        '           starting interface, and 48 ending interface\n'
+        'tenant -   Use "--option Tenant1" , where Tenant1 is tenant to be created\n'
+        'vlanpool - Use --file to specify a csv file input\n'
+        '           Use "--option VLANPoolName,static" to define pool name and type (no space)'
         )
     parser.add_argument(
         '-f',
@@ -127,7 +128,10 @@ def create(cookies, base_url, args, login, passwd):
             sys.exit(0)
         addIntProf(moDir, args)
     elif args.create.lower() == 'vlanpool':
-        pass
+        from Create.createVLANPool import createVLANPool, buildJSON
+        json_object = buildJSON(args)
+        createVLANPool(base_url, cookies, args, json_object)
+
     elif args.create.lower() == 'tenant':
         from Create.createTenant import createtenant
         tenant = args.option
