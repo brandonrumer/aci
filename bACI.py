@@ -195,10 +195,10 @@ def main():
     base_url = f"https://{apicUrl}"
 
     ### Coment/uncomment the below static entries if using getpass ###
-    login = 'admin'
-    passwd = 'ciscopsdt'
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
+    #login = 'admin'
+    #passwd = 'ciscopsdt'
+    login = input('Enter username to connect with: ')
+    passwd = getpass.getpass("Enter password: ")
         
     cookies = aaaLogin(apicUrl, login, passwd)
 
