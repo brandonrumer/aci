@@ -1,8 +1,8 @@
-# add_DefaultFilters.py
+# add_Filters.py
 Logs into ACI APIC via cobraSDK and creates the several filters in the common tenant. 
 
 ## Summary
-The filters that are created are referenced in a filters.yml file. For the purpose of this script, the filters are the commonly used 'literal values and port numbers' that are commonly used inside IOS/XE ACLs.
+The filters that are created are referenced in a filters.yml file. For the purpose of this script, the filters in the given yaml file are the commonly used 'literal values and port numbers' that are commonly used inside IOS/XE ACLs. However, any filter list could be used. 
 
 getpass can be implemented in cases where this is the sole script that is ran in the environment.
 

@@ -13,58 +13,54 @@ Requirements:
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
+# Import built-in modules
 
+# Import third-party modules
 import cobra.mit.access
 import cobra.mit.naming
 import cobra.mit.request
 import cobra.mit.session
 import cobra.model.infra
 from cobra.internal.codec.xmlcodec import toXMLStr
-
+import argparse
 # import getpass
+
 
 # Disable insecure certificate warning
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def connect_to_apic():
-  # APIC Login
-  apicUrl = 'https://sandboxapicdc.cisco.com'
-  login = 'admin'
-  passwd = 'ciscopsdt'
-  #login = input('Enter username to connect with: ')
-  #passwd = getpass.getpass("Enter password: ")
-  ls = cobra.mit.session.LoginSession(apicUrl, login, passwd)
+def apicLogin(DefaultApicUrl, login, passwd):
+  DefaultApicUrl = 'https://' + DefaultApicUrl
+  ls = cobra.mit.session.LoginSession(DefaultApicUrl, login, passwd)
   md = cobra.mit.access.MoDirectory(ls)
   md.login()
   return md
 
 
-def addIntProf(md):
+def addIntProf(md, args):
   # Top level object on which operations will be made
-  topDn = cobra.mit.naming.Dn.fromString('uni/infra/accportprof-Leaf101')   #<-- Actual Switch to tie it to
+  topDn = cobra.mit.naming.Dn.fromString(f'uni/infra/accportprof-{args.profile}')   #<-- Actual Switch to tie it to
   topParentDn = topDn.getParent()
   topMo = md.lookupByDn(topParentDn)
 
   # Begin building the request using cobra syntax
-  infraAccPortP = cobra.model.infra.AccPortP(topMo, name='Leaf101')   #<--Switch Profile Name
+  infraAccPortP = cobra.model.infra.AccPortP(topMo, name=args.profile)   #<--Switch Profile Name
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
-  infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name='1:01')
-  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort='1', toPort='1', name='block2')
+  infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:0{args.start}')
+  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort=f'{args.start}', toPort=f'{args.end}', name='block2')
   infraRsAccBaseGrp = cobra.model.infra.RsAccBaseGrp(infraHPortS)
 
-  ''' Create the rest of the interfaces, using a leading 0 for single digits.
-      The ending element/number should be 1 digit above the last interface 
-      number that is to be created. For example, (2,49) creates interfaces 
-      ranges from 02-48, with the 01 interface being created above, on ~ line 51.
-  '''
-  for i in (range(2,49)):
+  # Create the rest of the interfaces, using a leading 0 for single digits.
+  args.nextint = int(args.start) + 1
+  args.end = int(args.end) + 1
+  for i in (range(args.nextint,args.end)):
     i2 = ('%02d' % i)
     #print(f'i:{i}, i2:{i2}')
     globals()[f'infraHPortS{i}'] = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:{i2}')
@@ -88,8 +84,34 @@ def addIntProf(md):
 
 
 def main():
-  md = connect_to_apic()
-  addIntProf(md)
+  # Statically specify the APIC URL, if not executing script via CLI
+  DefaultApicUrl = 'sandboxapicdc.cisco.com'
+  login = 'admin'
+  passwd = 'ciscopsdt'
+  #login = input('Enter username to connect with: ')
+  #passwd = getpass.getpass("Enter password: ")
+
+  # Login to the APIC using CobraSDK
+  md=apicLogin(DefaultApicUrl, login, passwd)
+
+  # Use arg parse to capture any the CLI arguments
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--profile', '-p', action='store', 
+    help="The leaf profile name to create (Leaf-201)")
+  parser.add_argument('--start', '-s', action='store', 
+    help="The starting interface number (e1/01 would be '1')")
+  parser.add_argument('--end', '-e', action='store', 
+    help="The ending interface number (e1/48 would be '48')")
+  args = parser.parse_args()
+  
+  if args.profile == None:
+    args.profile = 'Leaf101'
+  if args.start == None:
+    args.start = '1'
+  if args.end == None:
+    args.end = '48'
+
+  addIntProf(md, args)
   
   md.logout()
 

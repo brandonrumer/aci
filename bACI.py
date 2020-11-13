@@ -60,7 +60,20 @@ def process_args():
         metavar='create', 
         required=False, 
         help='What to create. Values can be:\n'
-        ''
+        'filters - Use --file to specificy yaml file input\n'
+        'intprof - Use "--args Leaf-201 1-48" , where Leaf-201 is profile name, 1 is\n'
+        '          starting interface, and 48 ending interface\n'
+        'tenant - Use "--args Tenant1" , where Tenant1 is tenant to be created\n'
+        'vlanpool - '
+        )
+    parser.add_argument(
+        '-f',
+        '--file', 
+        action='store', 
+        metavar='file', 
+        required=False, 
+        help='Specifies a file to use for the action. Current supported actions \n'
+        'that can be used with this: default_filters, vlanpool'
         )
     parser.add_argument(
         '-t',
@@ -70,13 +83,47 @@ def process_args():
         required=True, 
         help='ACI Fabric IP or hostname.'
         )
+    parser.add_argument(
+        '-a',
+        '--args', 
+        action='store', 
+        metavar='args', 
+        required=False, 
+        help='Arguments for various creates/queries.'
+        )
     #args = parser.parse_args()
     return parser.parse_args()
 
 
 def create(cookies, base_url, args, login, passwd):
-    print('create')
-    print('not yet supported')
+    print(f'Creating object : {args.create}')
+    if args.create.lower() == 'filters':
+        # Using CobraSDK 
+        from Create.Filters.add_Filters import addFilters, importfilteryml, createLoop 
+        import yaml
+        ymlfile = args.file
+        # If a CLI argument for the file was not used then use a file (filters.yml) in the running dir
+        if ymlfile == None:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            ymlfile=dir_path + r"\Create\Filters\filters.yml"
+        # Login to the fabric using the CobraSDK
+        moDir = getCobraLogin(base_url, login, passwd)
+        # Parse the yaml file
+        data = importfilteryml(ymlfile)
+         # Create the filters
+        createLoop(moDir, data)
+        # Logout of the APIC
+        moDir.logout()
+    elif args.create.lower() == 'intprof':
+        from Create.add_InterfaceProf import addIntProf
+        # Login to the fabric using the CobraSDK
+        moDir = getCobraLogin(base_url, login, passwd)
+        addIntProf(moDir)
+
+    else:
+        print('Query object not found. Quitting')
+        sys.exit(0)
+
 
 
 def query(cookies, base_url, args, login, passwd):
@@ -144,6 +191,8 @@ def main():
     # login and passwd are used for Cobra modules. Clean this up later
     if args.query is not None:
         query(cookies, base_url, args, login, passwd)
+    elif args.create is not None:
+        create(cookies, base_url, args, login, passwd)
     else:
         print('Action argument invalid. Quitting...')
         sys.exit(1)        

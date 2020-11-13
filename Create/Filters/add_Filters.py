@@ -14,7 +14,7 @@ Requirements:
 """
 
 __author__ = "Brandon Rumer"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
@@ -69,7 +69,7 @@ def importfilteryml(ymlfile):
   return data
 
 
-def addDefaultFilters(md, item):
+def addFilters(md, item):
   # Top level object on which operations will be made
   topDn = cobra.mit.naming.Dn.fromString('uni/tn-common/flt-cmd')
   topParentDn = topDn.getParent()
@@ -98,7 +98,7 @@ def createLoop(md, data):
     vzentry = item.get('vzentryName')
     print('Filter Subject: ' + vzentry['name'])
     '''
-    addDefaultFilters(md, item)
+    addFilters(md, item)
   
 
 def main():
