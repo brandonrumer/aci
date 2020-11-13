@@ -5,7 +5,7 @@ Useful python scripts when interacting with an ACI fabric.
 bACI is a collection of various python scripts that you can use to interact with an ACI fabric. The scripts are organized in such a way that they can be ran as standalone scripts or by using pACI.py as an entrypoint. Because of the ability to run scripts as standalone some functions are copied into sub-folders because it's easier than dealing with python absolute or relative imports.  
 
 ## Usage
-
+```
 $ python bACI.py
 
 optional arguments:
@@ -27,6 +27,7 @@ optional arguments:
                         ACI Fabric IP or hostname.
   -o option, --option option
                         Values for various creates/queries.
+```
 
 ## Prerequisites
 I am still working on standardizing the sub-module's dependancies. For now, the following are generally required.<br>
