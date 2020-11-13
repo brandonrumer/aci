@@ -39,11 +39,9 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-
 def process_args():
     parser = argparse.ArgumentParser(description='Perform various tasks on a Cisco ACI fabric.', \
         formatter_class=argparse.RawTextHelpFormatter)
-
     parser.add_argument(
         '-q',
         '--query', 
@@ -61,9 +59,9 @@ def process_args():
         required=False, 
         help='What to create. Values can be:\n'
         'filters - Use --file to specificy yaml file input\n'
-        'intprof - Use "--args Leaf-201 1-48" , where Leaf-201 is profile name, 1 is\n'
+        'intprof - Use "--option Leaf-201,1,48" , where Leaf-201 is profile name, 1 is\n'
         '          starting interface, and 48 ending interface\n'
-        'tenant - Use "--args Tenant1" , where Tenant1 is tenant to be created\n'
+        'tenant - Use "--option Tenant1" , where Tenant1 is tenant to be created\n'
         'vlanpool - '
         )
     parser.add_argument(
@@ -84,12 +82,12 @@ def process_args():
         help='ACI Fabric IP or hostname.'
         )
     parser.add_argument(
-        '-a',
-        '--args', 
+        '-o',
+        '--option', 
         action='store', 
-        metavar='args', 
+        metavar='option', 
         required=False, 
-        help='Arguments for various creates/queries.'
+        help='Values for various creates/queries.'
         )
     #args = parser.parse_args()
     return parser.parse_args()
@@ -118,12 +116,26 @@ def create(cookies, base_url, args, login, passwd):
         from Create.add_InterfaceProf import addIntProf
         # Login to the fabric using the CobraSDK
         moDir = getCobraLogin(base_url, login, passwd)
-        addIntProf(moDir)
-
+        # Validate the input prior to passing the arg to the next function
+        try: 
+            leaf, start, end = args.option.split(',')
+        except ValueError:
+            print('Leaf and interface values are not in correct format.')
+            print('Expected: "python bACI.py -c intprof -o Leaf-201,1,48 -t apic"')
+            print('Check --help for details.')
+            print('Exiting...')
+            sys.exit(0)
+        addIntProf(moDir, args)
+    elif args.create.lower() == 'vlanpool':
+        pass
+    elif args.create.lower() == 'tenant':
+        from Create.createTenant import createtenant
+        tenant = args.option
+        createtenant(base_url, cookies, tenant)
+    
     else:
-        print('Query object not found. Quitting')
+        print('Query object not found. Quitting...')
         sys.exit(0)
-
 
 
 def query(cookies, base_url, args, login, passwd):

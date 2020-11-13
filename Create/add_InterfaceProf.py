@@ -44,23 +44,35 @@ def apicLogin(DefaultApicUrl, login, passwd):
 
 
 def addIntProf(md, args):
+  # The next two try blocks are for the bACI input while accounting for a standalone run option.
+  try: 
+    profile, start, end = args.option.split(',')
+  except:
+    pass
+  try:
+    profile = args.profile
+    start = args.start
+    end = args.end
+  except:
+    pass
+
   # Top level object on which operations will be made
-  topDn = cobra.mit.naming.Dn.fromString(f'uni/infra/accportprof-{args.profile}')   #<-- Actual Switch to tie it to
+  topDn = cobra.mit.naming.Dn.fromString(f'uni/infra/accportprof-{profile}')   #<-- Actual Switch to tie it to
   topParentDn = topDn.getParent()
   topMo = md.lookupByDn(topParentDn)
 
   # Begin building the request using cobra syntax
-  infraAccPortP = cobra.model.infra.AccPortP(topMo, name=args.profile)   #<--Switch Profile Name
+  infraAccPortP = cobra.model.infra.AccPortP(topMo, name=profile)   #<--Switch Profile Name
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
-  infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:0{args.start}')
-  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort=f'{args.start}', toPort=f'{args.end}', name='block2')
+  infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:0{start}')
+  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort=f'{start}', toPort=f'{end}', name='block2')
   infraRsAccBaseGrp = cobra.model.infra.RsAccBaseGrp(infraHPortS)
 
   # Create the rest of the interfaces, using a leading 0 for single digits.
-  args.nextint = int(args.start) + 1
-  args.end = int(args.end) + 1
-  for i in (range(args.nextint,args.end)):
+  nextint = int(start) + 1
+  end = int(end) + 1
+  for i in (range(nextint,end)):
     i2 = ('%02d' % i)
     #print(f'i:{i}, i2:{i2}')
     globals()[f'infraHPortS{i}'] = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:{i2}')
