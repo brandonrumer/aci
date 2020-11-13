@@ -1,10 +1,35 @@
-# ACI
+# bACI
 Useful python scripts when interacting with an ACI fabric. 
 
-Pay attention to the __status__ in each script. Generally speaking, if its labeled 'Production' it's a well-tested script. Still, use at your own risk. I'm not responible if you nuke your fabric with one of these scripts.
+# Description
+bACI is a collection of various python scripts that you can use to interact with an ACI fabric. The scripts are organized in such a way that they can be ran as standalone scripts or by using pACI.py as an entrypoint. Because of the ability to run scripts as standalone some functions are copied into sub-folders because it's easier than dealing with python absolute or relative imports.  
+
+## Usage
+
+$ python bACI.py
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -q query, --query query
+                        What to query. Values can be:
+                        tenant, epg, bd, endpoints, leaf, lldp_info
+  -c create, --create create
+                        What to create. Values can be:
+                        filters -  Use --file to specificy yaml file input
+                        intprof -  Use "--option Leaf-201,1,48" , where Leaf-201 is profile name, 1 is
+                                   starting interface, and 48 ending interface
+                        tenant -   Use "--option Tenant1" , where Tenant1 is tenant to be created
+                        vlanpool - Use --file to specify a csv file input
+                                   Use "--option VLANPoolName,static" to define pool name and type (no space)
+  -f file, --file file  Specifies a file to use for the action. Current supported actions
+                        that can be used with this: default_filters, vlanpool
+  -t target, --target target
+                        ACI Fabric IP or hostname.
+  -o option, --option option
+                        Values for various creates/queries.
 
 ## Prerequisites
-This varries depending on the script. Generally, the below 3rd party modules are used: <br>
+I am still working on standardizing the sub-module's dependancies. For now, the following are generally required.<br>
 prettyprint (pprintpp) <br>
 prettytable (prettytable) <br>
 tabulate <br>
