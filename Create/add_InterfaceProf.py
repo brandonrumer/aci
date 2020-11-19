@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 """ Summary:  Logs into ACI APIC via cobraSDK and creates the Interface 
               Profile interface selectors for every interface on the switch.

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 """ Summary:  Logs into ACI APIC via cobraSDK and creates the several
               Filters in the common tenant. The filters that are created
               are referenced in a filters.yml file. For the purpose of

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 """ Summary: Gets physical interfaces of a single ACI Nexus switch
 
