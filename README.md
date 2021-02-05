@@ -29,10 +29,28 @@ optional arguments:
                         Values for various creates/queries.
 ```
 
-## Example
+## Examples to create objects
+Below are examples for certain create commands when running bACI.py on a Windows host
+
+### Create Filters in common tenant from yml file
+For the ACI fabric sandboxapicdc.cisco.com, create filters specified in filters.yml file 
+```
+python .\bACI.py -c filters -f .\create\collateral\filters.yml -t sandboxapicdc.cisco.com
+```
+### Create Leaf Interface Profiles
 For the ACI fabric sandboxapicdc.cisco.com , create a switch interface profile named Leaf-1, and create interface selectors 1-48, labeled 1:01, 1:02, etc...
 ```
 python .\bACI.py -c intprof --option Leaf-1,1,48 -t sandboxapicdc.cisco.com
+```
+### Create VLAN Pool
+For the ACI fabric sandboxapicdc.cisco.com, create Tenant1 
+```
+python .\bACI.py -c tenant --option Tenant1
+```
+### Create VLAN Pool
+For the ACI fabric sandboxapicdc.cisco.com, create a static VLAN pool with the IDs specified in the vlans.csv file 
+```
+python .\bACI.py -c vlanpool -f .\create\collateral\vlans.csv -o ScriptVLAN_pool,static -t sandboxapicdc.cisco.com
 ```
 
 ## Prerequisites
