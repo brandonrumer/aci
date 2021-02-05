@@ -29,6 +29,12 @@ optional arguments:
                         Values for various creates/queries.
 ```
 
+## Example
+For the ACI fabric sandboxapicdc.cisco.com , create a switch interface profile named Leaf-1, and create interface selectors 1-48, labeled 1:01, 1:02, etc...
+```
+python .\bACI.py -c intprof --option Leaf-1,1,48 -t sandboxapicdc.cisco.com
+```
+
 ## Prerequisites
 I am still working on standardizing the sub-module's dependancies. For now, the following are generally required.<br>
 prettyprint (pprintpp) <br>
