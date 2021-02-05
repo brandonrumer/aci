@@ -4,7 +4,7 @@ Useful python scripts when interacting with an ACI fabric.
 # Description
 bACI is a collection of various python scripts that you can use to interact with an ACI fabric. The scripts are organized in such a way that they can be ran as standalone scripts or by using pACI.py as an entrypoint. Because of the ability to run scripts as standalone some functions are copied into sub-folders because it's easier than dealing with python absolute or relative imports.  
 
-## Usage
+# Usage
 ```
 $ python bACI.py
 
@@ -53,7 +53,7 @@ For the ACI fabric sandboxapicdc.cisco.com, create a static VLAN pool with the I
 python .\bACI.py -c vlanpool -f .\create\collateral\vlans.csv -o ScriptVLAN_pool,static -t sandboxapicdc.cisco.com
 ```
 
-## Prerequisites
+# Prerequisites
 I am still working on standardizing the sub-module's dependancies. For now, the following are generally required.<br>
 prettyprint (pprintpp) <br>
 prettytable (prettytable) <br>
