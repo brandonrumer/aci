@@ -42,7 +42,7 @@ For the ACI fabric sandboxapicdc.cisco.com , create a switch interface profile n
 ```
 python .\bACI.py -c intprof --option Leaf-1,1,48 -t sandboxapicdc.cisco.com
 ```
-### Create VLAN Pool
+### Create tenant
 For the ACI fabric sandboxapicdc.cisco.com, create Tenant1 
 ```
 python .\bACI.py -c tenant --option Tenant1
