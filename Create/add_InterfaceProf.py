@@ -66,7 +66,7 @@ def addIntProf(md, args):
 
   # Pre-load the first interface because it doesn't actually have a number in the infraHPortS variable (just easier)
   infraHPortS = cobra.model.infra.HPortS(infraAccPortP, type='range', name=f'1:0{start}')
-  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort=f'{start}', toPort=f'{end}', name='block2')
+  infraPortBlk = cobra.model.infra.PortBlk(infraHPortS, fromPort=f'{start}', toPort=f'{start}', name='block2')
   infraRsAccBaseGrp = cobra.model.infra.RsAccBaseGrp(infraHPortS)
 
   # Create the rest of the interfaces, using a leading 0 for single digits.
