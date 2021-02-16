@@ -139,6 +139,7 @@ cython_debug/
 
 # Workspace 
 *.code-workspace
+.vscode/
 
 # Arya-generated files
 Artifacts/
