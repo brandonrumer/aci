@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<polUni>
+	<fvTenant name="common">
+		<vzFilter name="cmd">
+			<vzEntry dFromPort="514" dToPort="514" etherT="ip" name="514-tcp" prot="tcp" stateful="yes"/>
+		</vzFilter>
+		<vzFilter name="domain">
+			<vzEntry dFromPort="53" dToPort="53" etherT="ip" name="53-tcp" prot="tcp" stateful="yes"/>
+			<vzEntry dFromPort="53" dToPort="53" etherT="ip" name="53-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="isakmp">
+			<vzEntry dFromPort="500" dToPort="500" etherT="ip" name="500-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="kerberos">
+			<vzEntry dFromPort="88" dToPort="88" etherT="ip" name="88-tcp" prot="tcp" stateful="yes"/>
+			<vzEntry dFromPort="88" dToPort="88" etherT="ip" name="88-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="ldap">
+			<vzEntry dFromPort="389" dToPort="389" etherT="ip" name="389-tcp" prot="tcp" stateful="yes"/>
+			<vzEntry dFromPort="389" dToPort="389" etherT="ip" name="389-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="ldaps">
+			<vzEntry dFromPort="636" dToPort="636" etherT="ip" name="636-tcp" prot="tcp" stateful="yes"/>
+			<vzEntry dFromPort="636" dToPort="636" etherT="ip" name="636-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="ntp">
+			<vzEntry dFromPort="123" dToPort="123" etherT="ip" name="123-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="smtp">
+			<vzEntry dFromPort="25" dToPort="25" etherT="ip" name="25-tcp" prot="tcp" stateful="yes"/>
+		</vzFilter>
+		<vzFilter name="snmp">
+			<vzEntry dFromPort="161" dToPort="162" etherT="ip" name="snmp-tcp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="ssh">
+			<vzEntry dFromPort="22" dToPort="22" etherT="ip" name="22-tcp" prot="tcp" stateful="yes"/>
+		</vzFilter>
+		<vzFilter name="tacacs">
+			<vzEntry dFromPort="49" dToPort="49" etherT="ip" name="49-tcp" prot="tcp" stateful="yes"/>
+		</vzFilter>
+		<vzFilter name="tftp">
+			<vzEntry dFromPort="69" dToPort="69" etherT="ip" name="69-udp" prot="udp"/>
+		</vzFilter>
+		<vzFilter name="www">
+			<vzEntry dFromPort="80" dToPort="80" etherT="ip" name="80-tcp" prot="tcp" stateful="yes"/>
+		</vzFilter>
+	</fvTenant>
+</polUni>
