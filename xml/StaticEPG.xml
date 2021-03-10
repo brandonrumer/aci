@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<polUni>
+
+	<fvTenant descr="" name="Prod">
+
+		<fvAp descr="" name="Netcentric_ap">
+		
+			<fvAEPg name="10.10.10.0_epg">
+      
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-101/pathep-[eth1/1]" mode="regular" instrImedcy="lazy" encap="vlan-100" status=""/>
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-101/pathep-[eth1/2]" mode="regular" instrImedcy="lazy" encap="vlan-100" status=""/>
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-101/pathep-[eth1/3]" mode="regular" instrImedcy="immediate" encap="vlan-100" status=""/>				
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-101/pathep-[eth1/4]" mode="regular" instrImedcy="immediate" encap="vlan-100" status=""/>
+
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-102/pathep-[eth1/1]" mode="regular" instrImedcy="lazy" encap="vlan-100" status=""/>
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-102/pathep-[eth1/2]" mode="regular" instrImedcy="lazy" encap="vlan-100" status=""/>
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-102/pathep-[eth1/3]" mode="regular" instrImedcy="immediate" encap="vlan-100" status=""/>
+				<fvRsPathAtt descr="" tDn="topology/pod-1/paths-102/pathep-[eth1/4]" mode="regular" instrImedcy="immediate" encap="vlan-100" status=""/>
+			</fvAEPg>
+
+		</fvAp>
+
+	</fvTenant>
+
+</polUni>
