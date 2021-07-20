@@ -27,8 +27,8 @@ import cobra.mit.session
 from prettytable import PrettyTable
 
 # for getEPGs module
-from tabulate import tabulate 
-from operator import itemgetter 
+from tabulate import tabulate
+from operator import itemgetter
 
 # Import ACI Modules
 from Login.apicLogin import aaaLogin
@@ -40,23 +40,23 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def process_args():
-    parser = argparse.ArgumentParser(description='Perform various tasks on a Cisco ACI fabric.', \
-        formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description='Perform various tasks on a Cisco ACI fabric.',
+                                     formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument(
         '-q',
-        '--query', 
-        action='store', 
-        metavar='query', 
-        required=False, 
+        '--query',
+        action='store',
+        metavar='query',
+        required=False,
         help='What to query. Values can be:\n'
         'tenant, epg, bd, endpoints, leaf, lldp_info'
         )
     parser.add_argument(
         '-c',
-        '--create', 
-        action='store', 
-        metavar='create', 
-        required=False, 
+        '--create',
+        action='store',
+        metavar='create',
+        required=False,
         help='What to create. Values can be:\n'
         'filters -  Use --file to specificy yaml file input\n'
         'intprof -  Use "--option Leaf-201,1,48" , where Leaf-201 is profile name, 1 is\n'
@@ -67,49 +67,50 @@ def process_args():
         )
     parser.add_argument(
         '-f',
-        '--file', 
-        action='store', 
-        metavar='file', 
-        required=False, 
+        '--file',
+        action='store',
+        metavar='file',
+        required=False,
         help='Specifies a file to use for the action. Current supported actions \n'
         'that can be used with this: default_filters, vlanpool'
         )
     parser.add_argument(
         '-t',
-        '--target', 
-        action='store', 
-        metavar='target', 
-        required=True, 
+        '--target',
+        action='store',
+        metavar='target',
+        required=True,
         help='ACI Fabric IP or hostname.'
         )
     parser.add_argument(
         '-o',
-        '--option', 
-        action='store', 
-        metavar='option', 
-        required=False, 
+        '--option',
+        action='store',
+        metavar='option',
+        required=False,
         help='Values for various creates/queries.'
         )
-    #args = parser.parse_args()
+    # args = parser.parse_args()
     return parser.parse_args()
 
 
 def create(cookies, base_url, args, login, passwd):
     print(f'Creating object : {args.create}')
     if args.create.lower() == 'filters':
-        # Using CobraSDK 
-        from Create.Filters.add_Filters import addFilters, importfilteryml, createLoop 
+        # Using CobraSDK
+        from Create.Filters.add_Filters import addFilters, importfilteryml, createLoop
         import yaml
         ymlfile = args.file
-        # If a CLI argument for the file was not used then use a file (filters.yml) in the running dir
-        if ymlfile == None:
+        # If a CLI argument for the file was not used then use
+        # a file (filters.yml) in the running dir.
+        if ymlfile is None:
             dir_path = os.path.dirname(os.path.realpath(__file__))
-            ymlfile=dir_path + r"\Create\Filters\filters.yml"
+            ymlfile = dir_path + r"\Create\Filters\filters.yml"
         # Login to the fabric using the CobraSDK
         moDir = getCobraLogin(base_url, login, passwd)
         # Parse the yaml file
         data = importfilteryml(ymlfile)
-         # Create the filters
+        # Create the filters
         createLoop(moDir, data)
         # Logout of the APIC
         moDir.logout()
@@ -118,7 +119,7 @@ def create(cookies, base_url, args, login, passwd):
         # Login to the fabric using the CobraSDK
         moDir = getCobraLogin(base_url, login, passwd)
         # Validate the input prior to passing the arg to the next function
-        try: 
+        try:
             leaf, start, end = args.option.split(',')
         except ValueError:
             print('Leaf and interface values are not in correct format.')
@@ -136,7 +137,7 @@ def create(cookies, base_url, args, login, passwd):
         from Create.createTenant import createtenant
         tenant = args.option
         createtenant(base_url, cookies, tenant)
-    
+
     else:
         print('Query object not found. Quitting...')
         sys.exit(0)
@@ -149,13 +150,13 @@ def query(cookies, base_url, args, login, passwd):
         tenants_data = gettenants(cookies, base_url)
         table = cleanupTenants(tenants_data)
         print(table)
-        print('\n')        
+        print('\n')
     elif args.query.lower() == 'lldp_info':
         from Query.getLLDP import getlldp, cleanuplldp
         lldp_data = getlldp(cookies, base_url)
         table = cleanuplldp(lldp_data)
         print(table)
-        print('\n')        
+        print('\n')
     elif args.query.lower() == 'endpoints':
         from Query.getEndpoints import getendpoints, cleanendpoints
         endpoint_data = getendpoints(base_url, cookies)
@@ -169,12 +170,12 @@ def query(cookies, base_url, args, login, passwd):
         moDir = getCobraLogin(base_url, login, passwd)
         # Get the EPGs
         fvAEPg_objlist = getEPG(moDir)
-        # Cleanup the EPGs to alphabetical 
+        # Cleanup the EPGs to alphabetical
         sortedEPGList = cleanupEPG(fvAEPg_objlist)
         print(tabulate(sortedEPGList, tablefmt="grid", headers="keys"))
         # Log out of the APIC
         moDir.logout()
-        print('\n')        
+        print('\n')
 
     else:
         print('Query object not found. Quitting')
@@ -184,8 +185,8 @@ def query(cookies, base_url, args, login, passwd):
 def getCobraLogin(base_url, login, passwd):
     # Login to the APIC using CobraSDK
     DefaultApicUrl = base_url.replace('https://', '')
-    from Query.cobra_apicLogin import apicLogin 
-    moDir=apicLogin(DefaultApicUrl, login, passwd)
+    from Query.cobra_apicLogin import apicLogin
+    moDir = apicLogin(DefaultApicUrl, login, passwd)
     return moDir
 
 
@@ -194,12 +195,12 @@ def main():
     apicUrl = args.target
     base_url = f"https://{apicUrl}"
 
-    ### Coment/uncomment the below static entries if using getpass ###
-    #login = 'admin'
-    #passwd = 'ciscopsdt'
+    # Coment/uncomment the below static entries if using getpass #
+    # login = 'admin'
+    # passwd = 'ciscopsdt'
     login = input('Enter username to connect with: ')
     passwd = getpass.getpass("Enter password: ")
-        
+
     cookies = aaaLogin(apicUrl, login, passwd)
 
     print('\n')
@@ -211,7 +212,7 @@ def main():
         create(cookies, base_url, args, login, passwd)
     else:
         print('Action argument invalid. Quitting...')
-        sys.exit(1)        
+        sys.exit(1)
 
     '''
     except Exception:
@@ -222,4 +223,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
