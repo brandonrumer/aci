@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-""" Summary:  Master file for b ACI project. 
+""" Summary:  Master file for b ACI project.
 
 
-Requirements: 
+Requirements:
     acicobra, pyyaml
 """
 
@@ -14,7 +14,7 @@ __status__ = "Production"
 
 
 # Import built-in modules
-import os 
+import os
 import sys
 import argparse
 import json
