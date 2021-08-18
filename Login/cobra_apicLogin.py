@@ -32,7 +32,7 @@ def main():
     # Statically specify the APIC URL, if not executing script via CLI
     DefaultApicUrl = 'sandboxapicdc.cisco.com'
     login = 'admin'
-    passwd = 'ciscopsdt'
+    passwd = '!v3G@!4@Y'
         
     #login = input('Enter username to connect with: ')
     #passwd = getpass.getpass("Enter password: ")
