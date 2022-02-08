@@ -2,7 +2,7 @@
 
 """ Summary: Logs into APIC and generates login cookie.
 
-    getpass can be implemented in cases where this is the sole 
+    getpass can be implemented in cases where this is the sole
     script that is ran in the environment.
 """
 
@@ -12,8 +12,10 @@ __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
 
-import requests, json, sys
-#import getpass 
+import requests
+import json
+import sys
+# import getpass
 
 # Disable insecure certificate warning
 import urllib3
@@ -21,11 +23,13 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def aaaLogin(apicUrl, login, passwd):
-    credentials = {'aaaUser':
-                    {'attributes':
-                        {'name': login, 'pwd': passwd }
-                    }
+    credentials = {
+        'aaaUser': {
+            'attributes': {
+                'name': login, 'pwd': passwd
+            }
         }
+    }
 
     base_url = f"https://{apicUrl}/api/"
     login_url = base_url + 'aaaLogin.json'
@@ -42,7 +46,6 @@ def aaaLogin(apicUrl, login, passwd):
             # Generate a cookie dict to be used in the POST header
             cookies = {}
             cookies['APIC-Cookie'] = token
-            #print(cookies)
             return cookies
         else:
             print('Connection Error. Wrong credentials? Terminating.\n')
@@ -55,14 +58,15 @@ def aaaLogin(apicUrl, login, passwd):
 def main():
     apicUrl = 'sandboxapicdc.cisco.com'
 
-    ### Coment/uncomment the below static entries if using getpass ###
+    # Coment/uncomment the below static entries if using getpass
     login = 'admin'
     passwd = 'ciscopsdt'
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
+    # login = input('Enter username to connect with: ')
+    # passwd = getpass.getpass("Enter password: ")
 
     cookies = aaaLogin(apicUrl, login, passwd)
     print(f"apicLogin cookie: {cookies}")
+
 
 if __name__ == "__main__":
     main()

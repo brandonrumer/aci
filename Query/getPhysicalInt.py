@@ -2,7 +2,7 @@
 
 """ Summary: Gets physical interface list of Nexus switches in the ACI fabric
 
-Requirements: 
+Requirements:
     prettytable
 
 """
@@ -13,9 +13,12 @@ __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
 
-import requests, json, re, operator, argparse
-from prettytable import PrettyTable 
-from pprint import pprint
+import requests
+import json
+import re
+import operator
+import argparse
+from prettytable import PrettyTable
 
 # Disable insecure certificate warning
 import urllib3
@@ -41,45 +44,49 @@ def cleanupendpoints(endpoint_data):
             data.append(line_dict)
 
     table = PrettyTable()
-    table.field_names = ['Node','dn','Port','adminSt','status']
+    table.field_names = ['Node', 'dn', 'Port', 'adminSt', 'status']
     for row in data:
         try:
             node = re.search(r'node-\d\d\d', str(row["dn"])).group(0)
         except AttributeError:
             node = ''
-        table.add_row([node, row['dn'],row['id'],row['adminSt'],row['status']])
+        table.add_row([node, row['dn'], row['id'], row['adminSt'], row['status']])
     return(table)
 
 
 def main():
     # The below import module(s) were placed in the main function for backward compatibility
     from apicLogin import aaaLogin
-    
+
     # Statically specify the APIC URL, if not executing script via CLI
     DefaultApicUrl = 'sandboxapicdc.cisco.com'
     login = 'admin'
     passwd = 'ciscopsdt'
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
-    
+    # login = input('Enter username to connect with: ')
+    # passwd = getpass.getpass("Enter password: ")
+
     # Use arg parse to capture any CLI arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--apic', '-a', action='store', 
+    parser.add_argument(
+        '--apic',
+        '-a',
+        action='store',
         help="The IP or URL of the APIC controller. This should not include \
-            http(s) or a trailing backslash.")
+            http(s) or a trailing backslash."
+    )
 
     args = parser.parse_args()
     apicUrl = args.apic
 
-    if apicUrl == None:
+    if apicUrl is None:
         apicUrl = DefaultApicUrl
-    
+
     base_url = f"https://{apicUrl}"
 
     cookies = aaaLogin(apicUrl, login, passwd)
 
     endpoint_data = getInt(cookies, base_url)
-    
+
     # Cleanup the data
     table = cleanupendpoints(endpoint_data)
     print(table.get_string(sort_key=operator.itemgetter(1, 0), sortby="Node"))

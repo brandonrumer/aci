@@ -2,7 +2,7 @@
 
 """ Summary: Creates ACI tenant
 
-    Requirements: 
+    Requirements:
         apicLogin.py
 """
 
@@ -12,7 +12,11 @@ __email__ = "brumer@cisco.com"
 __status__ = "Production"
 
 
-import requests, json, pprint, time, argparse
+import requests
+import json
+# import pprint
+import time
+import argparse
 # import getpass
 
 
@@ -24,14 +28,14 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def createtenant(base_url, cookies, new_tenant):
     # Begin building the dataset
     data = {
-    "fvTenant" : {
-        "attributes" : {
-        "name" : new_tenant
+        "fvTenant": {
+            "attributes": {
+                "name": new_tenant
+            }
         }
     }
-    }
 
-    # Create the JSON object from the data 
+    # Create the JSON object from the data
     json_object = json.dumps(data)
 
     api_url = "/api/mo/uni.json"
@@ -47,7 +51,7 @@ def createtenant(base_url, cookies, new_tenant):
         tenantstatus = requests.get(tenant_url, cookies=cookies, verify=False)
         if tenantstatus.ok:
             data = tenantstatus.json()
-            #print(data)
+            # print(data)
             modTs = data["imdata"][0]['fvTenant']['attributes']['modTs']
             print(f"Tenant {new_tenant} created/modified at {modTs} GMT")
     else:
@@ -59,20 +63,25 @@ def createtenant(base_url, cookies, new_tenant):
 def main():
     # The below import module(s) were placed in the main function for backward compatibility
     from apicLogin import aaaLogin
-    
+
     # Statically specify the APIC URL, if not executing script via CLI
     DefaultApicUrl = 'sandboxapicdc.cisco.com'
     login = 'admin'
     passwd = 'ciscopsdt'
     new_tenant = '20201113-01'
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
+    # login = input('Enter username to connect with: ')
+    # passwd = getpass.getpass("Enter password: ")
 
     # Use argparse to capture any CLI arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--tenant', '-t', action='store', 
-        help="The tenant to be created.")
+    parser.add_argument(
+        '--tenant', '-t',
+        action='store',
+        help="The tenant to be created."
+    )
+
     args = parser.parse_args()
+
     if args.tenant is not None:
         new_tenant = args.tenant
 

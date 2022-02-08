@@ -3,7 +3,8 @@
 """ Summary: Gathers all ACI LLDP info
 """
 
-import requests, json, pprint
+import requests
+import json
 
 from prettytable import PrettyTable
 
@@ -45,11 +46,11 @@ def main():
     apicUrl = 'sandboxapicdc.cisco.com'
     base_url = f"https://{apicUrl}"
 
-    ### Coment/uncomment the below static entries if using getpass ###
+    # Coment/uncomment the below static entries if using getpass
     login = 'admin'
     passwd = 'ciscopsdt'
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
+    # login = input('Enter username to connect with: ')
+    # passwd = getpass.getpass("Enter password: ")
 
     cookies = aaaLogin(apicUrl, login, passwd)
     tenants_data = gettenants(cookies, base_url)

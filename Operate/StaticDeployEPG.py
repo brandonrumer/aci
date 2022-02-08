@@ -77,7 +77,7 @@ def main():
     cookies = aaaLogin(DefaultApicUrl, login, passwd)
 
     # Do the work
-    deployEPG(base_url, cookies, args, json_object):
+    deployEPG(base_url, cookies, args, json_object)
 
 
 def deployEPG(base_url, cookies, args, json_object):

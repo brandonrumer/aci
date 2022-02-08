@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/local/bin/python3
 
 """ Summary: Logs into ACI APIC via cobraSDK
 
-Requirements: 
+Requirements:
     acicobra, acimodel
 """
 
@@ -32,12 +32,12 @@ def main():
     # Statically specify the APIC URL, if not executing script via CLI
     DefaultApicUrl = 'sandboxapicdc.cisco.com'
     login = 'admin'
-    passwd = 'ciscopsdt'
-        
-    #login = input('Enter username to connect with: ')
-    #passwd = getpass.getpass("Enter password: ")
-    
-    moDir=apicLogin(DefaultApicUrl, login, passwd)
+    passwd = '!v3G@!4@Y'
+
+    # login = input('Enter username to connect with: ')
+    # passwd = getpass.getpass("Enter password: ")
+
+    moDir = apicLogin(DefaultApicUrl, login, passwd)
     moDir.logout()
 
 

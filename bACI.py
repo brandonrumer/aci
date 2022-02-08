@@ -50,7 +50,7 @@ def process_args():
         required=False,
         help='What to query. Values can be:\n'
         'tenant, epg, bd, endpoints, leaf, lldp_info'
-        )
+    )
     parser.add_argument(
         '-c',
         '--create',
@@ -64,7 +64,7 @@ def process_args():
         'tenant -   Use "--option Tenant1" , where Tenant1 is tenant to be created\n'
         'vlanpool - Use --file to specify a csv file input\n'
         '           Use "--option VLANPoolName,static" to define pool name and type (no space)'
-        )
+    )
     parser.add_argument(
         '-f',
         '--file',
@@ -73,7 +73,7 @@ def process_args():
         required=False,
         help='Specifies a file to use for the action. Current supported actions \n'
         'that can be used with this: default_filters, vlanpool'
-        )
+    )
     parser.add_argument(
         '-t',
         '--target',
@@ -81,7 +81,7 @@ def process_args():
         metavar='target',
         required=True,
         help='ACI Fabric IP or hostname.'
-        )
+    )
     parser.add_argument(
         '-o',
         '--option',
@@ -89,8 +89,7 @@ def process_args():
         metavar='option',
         required=False,
         help='Values for various creates/queries.'
-        )
-    # args = parser.parse_args()
+    )
     return parser.parse_args()
 
 
