@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <imdata totalCount="1">
-	<fvnsVlanInstP allocMode="static" annotation="" descr="" dn="uni/infra/vlanns-[VLAN_Static_1_pool]-static" name="VLAN_Static_1_pool" nameAlias="" ownerKey="" ownerTag="">
-		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-100" name="" nameAlias="" role="external" to="vlan-100" />
-		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-200" name="" nameAlias="" role="external" to="vlan-200" />
-		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-301" name="" nameAlias="" role="external" to="vlan-301" />
+	<fvnsVlanInstP allocMode="static" annotation="" descr="" dn="uni/infra/vlanns-[VLAN_Static_1_pool]-static" name="VLAN_Static_1_pool" nameAlias="" ownerKey="" ownerTag="" userdom=":all:common:">
+		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-100" name="" nameAlias="" role="external" to="vlan-100" userdom=":all:common:"/>
+		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-200" name="" nameAlias="" role="external" to="vlan-200" userdom=":all:common:"/>
+		<fvnsEncapBlk allocMode="inherit" annotation="" descr="" from="vlan-301" name="" nameAlias="" role="external" to="vlan-301" userdom=":all:common:"/>
 	</fvnsVlanInstP>
 </imdata>
